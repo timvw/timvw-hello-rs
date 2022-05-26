@@ -15,7 +15,7 @@ jobs:
       - uses: mislav/bump-homebrew-formula-action@v2
         with:
           homebrew-tap: timvw/homebrew-tap
-          base-branch: main
+          base-branch: master
           formula-name: hellors-bin
           tag-name: ${{ github.event.inputs.crate-version }}
           download-url: https://github.com/timvw/hello-rs/releases/download/${{ github.event.inputs.crate-version }}/hello-rs-${{ github.event.inputs.crate-version }}-x86_64-apple-darwin-generic.tar.gz
