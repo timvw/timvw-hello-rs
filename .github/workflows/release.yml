@@ -114,10 +114,15 @@ jobs:
         with:
           submodules: true
       -
-        name: Bump crate version
-        uses: thomaseizinger/set-crate-version@master
+        name: Install edit
+        uses: actions-rs/install@v0.1
         with:
-          version: ${{needs.initial_release.outputs.crate-version}}
+          crate: cargo-edit
+          version: 0.9.1
+          use-tool-cache: true
+      -
+        name: Update version
+        run: cargo set-version ${{needs.initial_release.outputs.crate-version}}
       -
         name: Build application
         uses: actions-rs/cargo@v1
