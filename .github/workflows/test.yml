@@ -21,6 +21,7 @@ jobs:
         with:
           formula-name: hellors-bin
           homebrew-tap: timvw/hello-rs
+          base-branch: main
           download-url: https://github.com/timvw/hello-rs/releases/download/${{ github.event.inputs.crate-version }}/hello-rs-${{ github.event.inputs.crate-version }}-x86_64-apple-darwin-generic.tar.gz
 
 
