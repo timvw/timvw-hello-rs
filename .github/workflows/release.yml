@@ -9,7 +9,7 @@ on:
 
 jobs:
   initial_release:
-    name: Create base release
+    name: Create base release ${{ github.event.inputs.version }}
     runs-on: ubuntu-latest
     steps:
       - name: Create Release
@@ -24,7 +24,7 @@ jobs:
           prerelease: false
 
   release_assets:
-    name: Release assets
+    name: Release assets ${{ github.event.inputs.version }}
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
