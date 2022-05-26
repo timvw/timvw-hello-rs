@@ -11,7 +11,37 @@ jobs:
   initial_release:
     name: Create base release ${{ github.event.inputs.version }}
     runs-on: ubuntu-latest
+    outputs:
+      crate-version: ${{steps.get-crate-version.outputs.crate-version}}
     steps:
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.config.toolchain }}
+          target: ${{ matrix.config.target }}
+          override: true
+          default: true
+
+      - name: Install edit
+        uses: actions-rs/install@v0.1
+        with:
+          crate: cargo-edit
+          version: 0.9.1
+          use-tool-cache: true
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Get crate version
+        id: get-crate-version
+        run: |
+          crate-version=$(echo ${{ github.event.inputs.version }} | cut -dv -f2)
+          echo "::set-output name=crate-version::$crate-version"
+
+      - name: Update crate version
+        run: cargo set-version ${{steps.get-crate-version.outputs.crate-version}}
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -26,6 +56,7 @@ jobs:
   release_assets:
     name: Release assets ${{ github.event.inputs.version }}
     runs-on: ${{ matrix.config.os }}
+    needs: initial_release
     strategy:
       fail-fast: false
       matrix:
@@ -77,14 +108,8 @@ jobs:
         with:
           submodules: true
 
-      - name: Get version
-        id: get-version
-        run: |
-          version=$(echo ${{ github.event.inputs.version }} | cut -dv -f2)
-          echo "::set-output name=version::$version"
-
       - name: Update version
-        run: cargo set-version ${{steps.get-version.outputs.version}}
+        run: cargo set-version ${{needs.initial_release.outputs.crate-version}}
 
       - name: Build application
         uses: actions-rs/cargo@v1
