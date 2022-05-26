@@ -1,20 +1,33 @@
-#https://github.com/BurntSushi/ripgrep/blob/master/pkg/brew/ripgrep-bin.rb
-class HelloRsBin < Formula
-  version '0.1.12'
-  desc "Sample hello application."
-  homepage "https://github.com/timvw/hello-rs"
+# Documentation: https://docs.brew.sh/Formula-Cookbook
+#                https://rubydoc.brew.sh/Formula
+# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
+class HelloRs < Formula
+  desc "test repository to test github actions"
+  homepage ""
+  url "https://github.com/timvw/hello-rs/releases/download/0.1.19/hello-rs-0.1.19-x86_64-apple-darwin-generic.tar.gz"
+  sha256 "26416b98d9643a13a3677a817cb33ae1fe7f728b62a1b9eb2c21c706dfc4107c"
+  license "Apache-2.0"
 
-  if OS.mac?
-      url "https://github.com/timvw/hello-rs/releases/download/#{version}/hello-rs-#{version}-x86_64-apple-darwin.tar.gz"
-      #sha256 "585c18350cb8d4392461edd6c921e6edd5a97cbfc03b567d7bd440423e118082"
-  elsif OS.linux?
-      url "https://github.com/timvw/hello-rs/releases/download/#{version}/hello-rs-#{version}-x86_64-unknown-linux-musl.tar.gz"
-      #sha256 "ee4e0751ab108b6da4f47c52da187d5177dc371f0f512a7caaec5434e711c091"
-  end
-
-  conflicts_with "hello-rs"
+  # depends_on "cmake" => :build
 
   def install
-    bin.install "hello-rs"
+    # ENV.deparallelize  # if your formula fails when building in parallel
+    # Remove unrecognized options if warned by configure
+    # https://rubydoc.brew.sh/Formula.html#std_configure_args-instance_method
+    system "./configure", *std_configure_args, "--disable-silent-rules"
+    # system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+  end
+
+  test do
+    # `test do` will create, run in and delete a temporary directory.
+    #
+    # This test will fail and we won't accept that! For Homebrew/homebrew-core
+    # this will need to be a test that verifies the functionality of the
+    # software. Run the test with `brew test hello-rs`. Options passed
+    # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
+    #
+    # The installed folder is not in the path, so use the entire path to any
+    # executables being tested: `system "#{bin}/program", "do", "something"`.
+    system "false"
   end
 end
