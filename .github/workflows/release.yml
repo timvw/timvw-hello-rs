@@ -64,7 +64,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/hello-rs:${{ github.event.inputs.version }}
 
   release_assets:
-    name: Release assets ${{ github.event.inputs.version }}
+    name: Release assets ${{ github.event.inputs.version }} (${{ matrix.config.toolchain }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }})
+
     runs-on: ${{ matrix.config.os }}
     needs: initial_release
     strategy:
