@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: mislav/bump-homebrew-formula-action@v2
         with:
-          homebrew-tap: timvw/tap
+          homebrew-tap: timvw/homebrew-tap
           base-branch: main
           formula-name: hellors-bin
           tag-name: ${{ github.event.inputs.crate-version }}
