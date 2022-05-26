@@ -1,7 +1,16 @@
 [package]
 name = "timvw-hello-rs"
+description = "hello world application to demonstrate a github actions release pipeline"
 version = "0.1.0"
 edition = "2021"
+homepage = "https://github.com/timvw/timvw-hello-rs"
+repository = "https://github.com/timvw/timvw-hello-rs"
+readme = "README.md"
+authors = ["Tim Van Wassenhove <tim@timvw.be>"]
+license = "Apache-2.0"
+keywords = [ "rust", "hello-world" ]
+
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
