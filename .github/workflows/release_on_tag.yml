@@ -74,7 +74,7 @@ jobs:
         with:
           use-cross: ${{ matrix.config.cross }}
           command: rustc
-          args: --manifest-path ./Cargo.toml --release --target ${{ matrix.config.target }} --no-default-features -- -C target-cpu=${{ matrix.config.target_cpu }} -C lto
+          args: --manifest-path ./Cargo.toml --release --target ${{ matrix.config.target }} --no-default-features -- -C target-cpu=${{ matrix.config.target_cpu }}
 
       - name: Get tag version
         id: get_version
