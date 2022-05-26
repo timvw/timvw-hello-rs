@@ -44,7 +44,7 @@ jobs:
           submodules: true
       -
         name: Bump crate version
-        uses: thomaseizinger/set-crate-version@v1
+        uses: thomaseizinger/set-crate-version@master
         with:
           version: ${{steps.get-crate-version.outputs.crate-version}}
       -
@@ -114,7 +114,7 @@ jobs:
           submodules: true
       -
         name: Bump crate version
-        uses: thomaseizinger/set-crate-version@v1
+        uses: thomaseizinger/set-crate-version@master
         with:
           version: ${{steps.get-crate-version.outputs.crate-version}}
       -
