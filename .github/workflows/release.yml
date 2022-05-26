@@ -30,8 +30,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          submodules: true
 
       - name: Get crate version
         id: get-crate-version
