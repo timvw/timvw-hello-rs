@@ -1,7 +1,7 @@
 # Documentation: https://docs.brew.sh/Formula-Cookbook
 #                https://rubydoc.brew.sh/Formula
 # PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-class HelloRs < Formula
+class HelloRsBin < Formula
   desc "test repository to test github actions"
   homepage "https://github.com/timvw/hello-rs"
   url "https://github.com/timvw/hello-rs/releases/download/0.1.19/hello-rs-0.1.19-x86_64-apple-darwin-generic.tar.gz"
