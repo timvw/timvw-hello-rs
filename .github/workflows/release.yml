@@ -76,8 +76,14 @@ jobs:
         with:
           submodules: true
 
+      - name: Get version
+        id: get-version
+        run: |
+          version=$(echo ${{ github.event.inputs.version }} | cut -dv -f2)
+          echo "::set-output name=version::$version"
+
       - name: Update version
-        run: cargo set-version ${{ github.event.inputs.version }}
+        run: cargo set-version ${{steps.get-version.outputs.version}}
 
       - name: Build application
         uses: actions-rs/cargo@v1
