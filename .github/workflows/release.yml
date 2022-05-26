@@ -1,9 +1,11 @@
-name: Release on tag
+name: Release
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
 
 jobs:
   initial_release:
@@ -16,8 +18,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
           draft: false
           prerelease: false
 
@@ -95,6 +97,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: hello-rs-${{ steps.get_version.outputs.VERSION }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
           asset_name: hello-rs-${{ steps.get_version.outputs.VERSION }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}
-          tag: ${{ github.ref }}
+          tag: ${{ github.event.inputs.version }}
           file_glob: true
           overwrite: true
