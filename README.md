@@ -17,6 +17,6 @@ docker build . --build-arg CRATE_VERSION=0.1.13 -t timvw/timvw-hello-rs:latest
 Tap this repository:
 
 ```bash
-brew tap timvw/timvw-hello-rs https://github.com/timvw/timvw-hello-rs.git
+brew tap timvw/tap
 brew install timvw-hellors-bin
 ```
