@@ -52,6 +52,26 @@ jobs:
           draft: false
           prerelease: false
 
+  release_container:
+    name: Release container ${{ github.event.inputs.version }}
+    runs-on: ubuntu-latest
+    needs: initial_release
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/hello-rs:${{ github.event.inputs.version }}
+
   release_assets:
     name: Release assets ${{ github.event.inputs.version }}
     runs-on: ${{ matrix.config.os }}
