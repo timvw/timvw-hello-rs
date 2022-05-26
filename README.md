@@ -18,5 +18,5 @@ Tap this repository:
 
 ```bash
 brew tap timvw/hello-rs https://github.com/timvw/hello-rs.git
-brew install timvw/hello-rs/hello-rs
+brew install hellors-bin
 ```
