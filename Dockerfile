@@ -17,12 +17,17 @@
 
 FROM rust:1.61 as builder
 
+ARG CRATE_VERSION="0.0.0"
+
 WORKDIR /usr/src/hello-rs
 COPY ./Cargo.toml ./Cargo.toml
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./src ./src
 
 RUN rustup component add rustfmt
+RUN cargo install cargo-edit --version 0.9.1
+RUN cargo set-version ${CRATE_VERSION}
+
 RUN cargo build --release
 
 FROM debian:bullseye-slim

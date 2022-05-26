@@ -69,6 +69,9 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/hello-rs:${{ github.event.inputs.version }}
+          build-args: |
+            CRATE_VERSION: ${{needs.initial_release.outputs.crate-version}}
+            
 
   release_assets:
     name: Release assets ${{ github.event.inputs.version }}
