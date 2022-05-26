@@ -17,7 +17,7 @@
 
 FROM rust:1.61 as builder
 
-WORKDIR /usr/src/hello-rs
+WORKDIR /usr/src/timvw-hello-rs
 COPY ./Cargo.toml ./Cargo.toml
 COPY ./Cargo.lock ./Cargo.lock
 COPY ./src ./src
@@ -29,6 +29,6 @@ RUN cargo build --release
 FROM debian:bullseye-slim
 RUN apt-get update 
 RUN apt-get install --no-install-recommends -y ca-certificates
-COPY --from=builder /usr/src/hello-rs/target/release/hello-rs /usr/local/bin
+COPY --from=builder /usr/src/timvw-hello-rs/target/release/timvw-hello-rs /usr/local/bin
 
-CMD ["hello-rs"]
+CMD ["timvw-hello-rs"]

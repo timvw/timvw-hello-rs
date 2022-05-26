@@ -1,4 +1,4 @@
-# Hello-rs
+# timvw-hello-rs
 
 Repository to experiment with github actions and rust
 
@@ -11,12 +11,12 @@ gh workflow run release.yml -f version=0.1.13
 Build container manually:
 
 ```bash
-docker build . --build-arg CRATE_VERSION=0.1.13 -t timvw/hello-rs:latest
+docker build . --build-arg CRATE_VERSION=0.1.13 -t timvw/timvw-hello-rs:latest
 ```
 
 Tap this repository:
 
 ```bash
-brew tap timvw/hello-rs https://github.com/timvw/hello-rs.git
-brew install hellors-bin
+brew tap timvw/timvw-hello-rs https://github.com/timvw/timvw-hello-rs.git
+brew install timvw-hellors-bin
 ```

@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "hello-rs"
+name = "timvw-hello-rs"
 version = "0.1.0"
