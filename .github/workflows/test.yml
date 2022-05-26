@@ -1,0 +1,21 @@
+on:
+workflow_dispatch:
+  inputs:
+    tag-name:
+      description: 'The git tag name to bump the formula to'
+      required: true
+
+jobs:
+  homebrew:
+    name: Bump Homebrew formula
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mislav/bump-homebrew-formula-action@v2
+        with:
+          homebrew-tap: timvw/tap
+          base-branch: main
+          formula-name: hellors-bin
+          tag-name: ${{ github.event.inputs.tag-name }}
+          download-url: https://github.com/timvw/hello-rs/releases/download/${{ github.event.inputs.crate-version }}/hello-rs-${{ github.event.inputs.crate-version }}-x86_64-apple-darwin-generic.tar.gz
+        env:
+          COMMITTER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
