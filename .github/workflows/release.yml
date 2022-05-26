@@ -66,10 +66,11 @@ jobs:
           args: --version 0.1.16 cross
 
       - name: Install edit
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/install@v0.1
         with:
-          command: install
-          args: cargo-edit
+          crate: cargo-edit
+          version: 0.9.1
+          use-tool-cache: true
 
       - name: Checkout code
         uses: actions/checkout@v1
