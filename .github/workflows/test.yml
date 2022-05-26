@@ -1,9 +1,11 @@
+name: Test
+
 on:
-workflow_dispatch:
-  inputs:
-    tag-name:
-      description: 'The git tag name to bump the formula to'
-      required: true
+  workflow_dispatch:
+    inputs:
+      tag-name:
+        description: 'The git tag name to bump the formula to'
+        required: true
 
 jobs:
   homebrew:
