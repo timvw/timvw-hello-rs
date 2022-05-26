@@ -46,7 +46,7 @@ jobs:
         name: Bump crate version
         uses: thomaseizinger/set-crate-version@master
         with:
-          version: ${{steps.get-crate-version.outputs.crate-version}}
+          version: ${{needs.initial_release.outputs.crate-version}}
       -
         name: Login to ghcr.io
         uses: docker/login-action@v2
@@ -116,7 +116,7 @@ jobs:
         name: Bump crate version
         uses: thomaseizinger/set-crate-version@master
         with:
-          version: ${{steps.get-crate-version.outputs.crate-version}}
+          version: ${{needs.initial_release.outputs.crate-version}}
       -
         name: Build application
         uses: actions-rs/cargo@v1
