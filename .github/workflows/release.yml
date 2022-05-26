@@ -78,25 +78,20 @@ jobs:
           command: rustc
           args: --manifest-path ./Cargo.toml --release --target ${{ matrix.config.target }} --no-default-features -- -C target-cpu=${{ matrix.config.target_cpu }}
 
-      - name: Get tag version
-        id: get_version
-        run: echo ::set-output name=VERSION::``${GITHUB_REF#refs/tags/}``
-        shell: bash
-
       - name: Pack binaries if unix
         if: matrix.config.os != 'windows-latest'
-        run: tar -C ./target/${{ matrix.config.target }}/release -czvf hello-rs-${{ steps.get_version.outputs.VERSION }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.tar.gz hello-rs
+        run: tar -C ./target/${{ matrix.config.target }}/release -czvf hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.tar.gz hello-rs
 
       - name: Pack binaries if windows
         if: matrix.config.os == 'windows-latest'
-        run: compress-archive ./target/${{ matrix.config.target }}/release/hello-rs.exe hello-rs-${{ steps.get_version.outputs.VERSION }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.zip
+        run: compress-archive ./target/${{ matrix.config.target }}/release/hello-rs.exe hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.zip
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: hello-rs-${{ steps.get_version.outputs.VERSION }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
-          asset_name: hello-rs-${{ steps.get_version.outputs.VERSION }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}
+          file: hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
+          asset_name: hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}
           tag: ${{ github.event.inputs.version }}
           file_glob: true
           overwrite: true
