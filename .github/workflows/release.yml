@@ -57,7 +57,7 @@ jobs:
           default: true
       -
         name: Publish crate
-        run: cargo publish
+        run: cargo publish --allow-dirty
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
