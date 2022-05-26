@@ -191,7 +191,7 @@ jobs:
 #        with:
 #          homebrew-tap: timvw/homebrew-tap
 #          base-branch: master
-#          formula-name: hellors-bin
+#          formula-name: timvw-hellors-bin
 #          tag-name: ${{needs.initial_release.outputs.crate-version}}
 #          download-url: https://github.com/timvw/timvw-hello-rs/releases/download/${{needs.initial_release.outputs.crate-version}}/timvw-hello-rs-${{needs.initial_release.outputs.crate-version}}-x86_64-apple-darwin-generic.tar.gz
 #        env:
