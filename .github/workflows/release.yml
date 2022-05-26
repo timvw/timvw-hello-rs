@@ -35,9 +35,8 @@ jobs:
 
       - name: Get crate version
         id: get-crate-version
-        run: |
-          crate-version=$(echo ${{ github.event.inputs.version }} | cut -dv -f2)
-          echo "::set-output name=crate-version::$crate-version"
+        run: echo ::set-output name=crate-version::``$(echo ${{ github.event.inputs.version }} | cut -dv -f2)``
+        shell: bash
 
       - name: Update crate version
         run: cargo set-version ${{steps.get-crate-version.outputs.crate-version}}
