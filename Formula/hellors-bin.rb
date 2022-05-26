@@ -3,8 +3,8 @@
 class HellorsBin < Formula
   desc "test repository to test github actions"
   homepage "https://github.com/timvw/hello-rs"
-  url "https://github.com/timvw/hello-rs/releases/download/0.1.19/hello-rs-0.1.19-x86_64-apple-darwin-generic.tar.gz"
-  sha256 "26416b98d9643a13a3677a817cb33ae1fe7f728b62a1b9eb2c21c706dfc4107c"
+  url "https://github.com/timvw/hello-rs/archive/0.1.21.tar.gz"
+  sha256 "9df284c69c41cb0673069879a6f6b6800c7bea66c2dcd6a7546fd172faeea735"
   license "Apache-2.0"
 
   def install
