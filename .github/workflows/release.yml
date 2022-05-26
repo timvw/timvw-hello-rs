@@ -23,7 +23,6 @@ jobs:
           draft: false
           prerelease: false
 
-
   release_assets:
     name: Release assets
     runs-on: ${{ matrix.config.os }}
