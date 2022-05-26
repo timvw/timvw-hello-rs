@@ -58,6 +58,8 @@ jobs:
       -
         name: Publish crate
         run: cargo publish
+        env:
+          CARGO_REGISTRY_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
   release_container:
     name: Release container ${{ github.event.inputs.version }}
