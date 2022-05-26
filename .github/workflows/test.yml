@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      crate-version:
+        description: 'Version to release'
+        required: true
+
+jobs:
+
+  release_homebrew:
+    name: Release homebrew formula
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Bump personal tap formula
+        uses: mislav/bump-homebrew-formula-action@v1
+        env:
+          COMMITTER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          formula-name: hellors-bin
+          homebrew-tap: timvw/hello-rs
+          download-url: https://github.com/timvw/hello-rs/releases/download/${{ github.event.inputs.crate-version }}/hello-rs-${{ github.event.inputs.crate-version }}-x86_64-apple-darwin-generic.tar.gz
+
+
