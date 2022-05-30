@@ -68,6 +68,7 @@ jobs:
           release_name: Release ${{ github.event.inputs.version }}
           draft: true
           prerelease: true
+          commitish: ${{steps.make-commit.outputs.commit}}
       - 
         name: Create pull request
         uses: thomaseizinger/create-pull-request@1.0.0
