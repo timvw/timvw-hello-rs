@@ -2,6 +2,14 @@
 
 Repository to experiment with github actions and rust
 
+Test the workflow:
+
+Local development is often faster by using [https://github.com/nektos/act](https://github.com/nektos/act)
+
+```bash
+act workflow_dispatch -e sample.event 
+```
+
 Create a release:
 
 ```bash

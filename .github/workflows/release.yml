@@ -75,7 +75,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           head: release/${{steps.get-crate-version.outputs.crate-version}}
-          base: master
+          base: main
           title: Release version ${{steps.get-crate-version.outputs.crate-version}}
           reviewers: ${{ github.actor }} # By default, we request a review from the person who triggered the workflow.
           # Write a nice message to the user.
