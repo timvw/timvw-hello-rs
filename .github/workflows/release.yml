@@ -14,12 +14,49 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       crate-version: ${{steps.get-crate-version.outputs.crate-version}}
-    steps:
+    steps:    
+      -
+        name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: true
       -
         name: Get crate version
         id: get-crate-version
         run: echo ::set-output name=crate-version::``$(echo ${{ github.event.inputs.version }} | cut -dv -f2)``
-        shell: bash
+        shell: bash    
+      -
+        name: Bump crate version
+        uses: thomaseizinger/set-crate-version@master
+        with:
+          version: ${{steps.get-crate-version.outputs.crate-version}}   
+      -
+        name: Create release branch
+        run: git checkout -b release/${{steps.get-crate-version.outputs.crate-version}}
+      - 
+        name: Update changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@1.1.0
+        with:
+          version: ${{steps.get-crate-version.outputs.crate-version}}
+      - 
+        name: Initialize mandatory git config
+        run: |
+          git config user.name "GitHub actions"
+          git config user.email noreply@github.com 
+      - 
+        name: Commit changelog and manifest files
+        id: make-commit
+        run: |
+          git add CHANGELOG.md Cargo.toml
+          git commit --message "Prepare release ${{steps.get-crate-version.outputs.crate-version}}"
+          echo "::set-output name=commit::$(git rev-parse HEAD)"
+      - 
+        name: Push new branch
+        run: |
+          echo "your token is ${GITHUB_TOKEN}."
+          git push origin release/${{steps.get-crate-version.outputs.crate-version}} 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
       -
         name: Create Release
         id: create_release
@@ -27,10 +64,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.event.inputs.version }}
+          #tag_name: ${{ github.event.inputs.version }}
           release_name: Release ${{ github.event.inputs.version }}
-          draft: false
-          prerelease: false
+          draft: true
+          prerelease: true
 
   release_create:
     name: Release crate ${{ github.event.inputs.version }}
