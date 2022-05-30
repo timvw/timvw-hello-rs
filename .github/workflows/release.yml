@@ -54,9 +54,7 @@ jobs:
         shell: bash
       - 
         name: Push new branch
-        run: |
-          echo "your token is ${GITHUB_TOKEN}."
-          git push origin release/${{steps.get-crate-version.outputs.crate-version}} 
+        run: git push origin release/${{steps.get-crate-version.outputs.crate-version}} 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
       -
@@ -70,6 +68,7 @@ jobs:
           release_name: Release ${{ github.event.inputs.version }}
           draft: true
           prerelease: true
+      
 
   release_create:
     name: Release crate ${{ github.event.inputs.version }}
