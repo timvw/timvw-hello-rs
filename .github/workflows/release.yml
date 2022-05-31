@@ -209,15 +209,16 @@ jobs:
         run: compress-archive ./target/${{ matrix.config.target }}/release/timvw-hello-rs.exe timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.zip
       -
         name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v1-release
+        uses: softprops/action-gh-release@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
           asset_name: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}
           tag: ${{ github.event.inputs.version }}
           file_glob: true
           overwrite: true
           prerelease: true
+          draft: true
 
 # not needed - renovate bot on timvw/homebrew-tap repo will do this for me.
 #  update_homebrew_formula:
