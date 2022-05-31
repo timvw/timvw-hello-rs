@@ -123,12 +123,8 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v3
         with:
+          ref: ${{needs.initial_release.outputs.commit}}
           submodules: true
-      -
-        name: Bump crate version
-        uses: thomaseizinger/set-crate-version@master
-        with:
-          version: ${{needs.initial_release.outputs.crate-version}}
       -
         name: Login to ghcr.io
         uses: docker/login-action@v2
@@ -194,17 +190,8 @@ jobs:
         name: Checkout code
         uses: actions/checkout@v3
         with:
+          ref: ${{needs.initial_release.outputs.commit}}
           submodules: true
-      -
-        name: Install edit
-        uses: actions-rs/install@v0.1
-        with:
-          crate: cargo-edit
-          version: 0.9.1
-          use-tool-cache: true
-      -
-        name: Update version
-        run: cargo set-version ${{needs.initial_release.outputs.crate-version}}
       -
         name: Build application
         uses: actions-rs/cargo@v1
