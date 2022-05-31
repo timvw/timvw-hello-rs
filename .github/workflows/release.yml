@@ -100,11 +100,6 @@ jobs:
         with:
           submodules: true
       -
-        name: Bump crate version
-        uses: thomaseizinger/set-crate-version@master
-        with:
-          version: ${{needs.initial_release.outputs.crate-version}}
-      -
         name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -114,7 +109,7 @@ jobs:
           default: true
       -
         name: Publish crate
-        run: cargo publish --allow-dirty
+        run: cargo publish
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
