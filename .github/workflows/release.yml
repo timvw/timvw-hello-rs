@@ -230,6 +230,7 @@ jobs:
           tag: ${{ github.event.inputs.version }}
           file_glob: true
           overwrite: true
+          prerelease: true
 
 # not needed - renovate bot on timvw/homebrew-tap repo will do this for me.
 #  update_homebrew_formula:
