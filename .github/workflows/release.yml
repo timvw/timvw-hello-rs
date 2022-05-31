@@ -212,9 +212,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
+          #files: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
+          files: timvw-hello-rs-*
           asset_name: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}
-          tag: ${{ github.event.inputs.version }}
+          tag_name: ${{ github.event.inputs.version }}
           file_glob: true
           overwrite: true
           prerelease: true
