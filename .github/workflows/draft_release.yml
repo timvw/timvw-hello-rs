@@ -16,10 +16,6 @@ on:
 
 jobs:
 
-  outputs:
-    crate-version: ${{ steps.initial_release.outputs.crate-version }}
-    commitish: ${{ steps.initial_release.outputs.commit }}
-
   initial_release:
     name: Create base release ${{ github.event.inputs.version }}
     runs-on: ubuntu-latest
