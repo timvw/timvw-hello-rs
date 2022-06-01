@@ -1,28 +1,20 @@
 name: Draft release
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       version:
+        description: 'Version to release'
         required: true
-        type: string
-    outputs:
-      crate-version:
-        description: "Version of the release (without leading v)"
-        value: ${{ jobs.initial_release.outputs.crate-version }}
-      commitish:
-        description: "SHA of commit on which this release is based"
-        value: ${{ jobs.initial_release.outputs.commitish }}
 
 jobs:
 
-  initial_release:
-    name: Create base release ${{ inputs.version }}
+  create_draft_release:
     runs-on: ubuntu-latest
     outputs:
-      crate-version: ${{steps.get-crate-version.outputs.crate-version}}
-      commit: ${{steps.make-commit.outputs.commit}}
-    steps:    
+      crate_version: ${{steps.get-crate-version.outputs.crate_version}}
+      commitish: ${{steps.make-commit.outputs.commitish}}
+    steps:
       -
         name: Checkout code
         uses: actions/checkout@v3
@@ -31,48 +23,49 @@ jobs:
       -
         name: Get crate version
         id: get-crate-version
-        run: echo ::set-output name=crate-version::``$(echo ${{ inputs.version }} | cut -dv -f2)``
-        shell: bash    
+        run: echo ::set-output name=crate_version::``$(echo ${{ inputs.version }} | cut -dv -f2)``
+        shell: bash
       -
         name: Bump crate version
         uses: thomaseizinger/set-crate-version@master
         with:
-          version: ${{steps.get-crate-version.outputs.crate-version}}   
+          version: ${{steps.get-crate-version.outputs.crate_version}}
       -
         name: Create release branch
-        run: git checkout -b release/${{steps.get-crate-version.outputs.crate-version}}
-      - 
-        name: Update changelog
-        uses: thomaseizinger/keep-a-changelog-new-release@1.1.0
-        with:
-          version: ${{steps.get-crate-version.outputs.crate-version}}
-      - 
+        run: git checkout -b release/${{steps.get-crate-version.outputs.crate_version}}
+      -
         name: Initialize mandatory git config
         run: |
           git config user.name "GitHub actions"
-          git config user.email noreply@github.com 
-      - 
+          git config user.email noreply@github.com
+      -
         name: Commit changelog and manifest files
         id: make-commit
         run: |
-          git add CHANGELOG.md Cargo.toml
+          git add Cargo.toml
           git commit --message "Prepare release ${{steps.get-crate-version.outputs.crate-version}}"
-          echo "::set-output name=commit::$(git rev-parse HEAD)"
+          echo "::set-output name=commitish::$(git rev-parse HEAD)"
         shell: bash
-      - 
+      -
         name: Push new branch
-        run: git push origin release/${{steps.get-crate-version.outputs.crate-version}} 
+        run: git push origin release/${{steps.get-crate-version.outputs.crate-version}}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          body_path: CHANGELOG.md
           draft: true
           name: Release ${{ inputs.version }}
           tag_name: ${{ inputs.version }}
           target_commitish: ${{steps.make-commit.outputs.commit}}
 
+  build_assets_and_add_to_release:
+    needs: create_draft_release
+    uses: ./.github/workflows/build_assets_and_add_to_release.yml
+    with:
+      app_name: "timvw-hello-rs"
+      version: ${{ needs.create_draft_release.outputs.crate_version }}
+      commitish: ${{ needs.create_draft_release.outputs.commitish }}
 

@@ -13,7 +13,7 @@ act workflow_dispatch -e sample.event
 Create a release:
 
 ```bash
-gh workflow run release.yml -f version=0.1.13
+gh workflow run draft_release.yml -f version=0.1.13
 ```
 
 Build container manually:
