@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release'
+        description: 'Version to release (eg: 0.1.0)'
         required: true
 
 jobs:
@@ -12,8 +12,7 @@ jobs:
   create_draft_release:
     runs-on: ubuntu-latest
     outputs:
-      crate_version: ${{steps.get-crate-version.outputs.crate_version}}
-      commitish: ${{steps.make-commit.outputs.commitish}}
+      commitish: ${{ steps.commit.outputs.commitish }}
     steps:
       -
         name: Checkout code
@@ -21,34 +20,29 @@ jobs:
         with:
           submodules: true
       -
-        name: Get crate version
-        id: get-crate-version
-        run: echo ::set-output name=crate_version::``$(echo ${{ inputs.version }} | cut -dv -f2)``
-        shell: bash
-      -
         name: Bump crate version
         uses: thomaseizinger/set-crate-version@master
         with:
-          version: ${{steps.get-crate-version.outputs.crate_version}}
+          version: ${{ github.event.inputs.version }}
       -
         name: Create release branch
-        run: git checkout -b release/${{steps.get-crate-version.outputs.crate_version}}
+        run: git checkout -b release/${{ github.event.inputs.version }}
       -
         name: Initialize mandatory git config
         run: |
           git config user.name "GitHub actions"
           git config user.email noreply@github.com
       -
-        name: Commit changelog and manifest files
-        id: make-commit
+        name: Commit manifest file
+        id: commit
         run: |
           git add Cargo.toml
-          git commit --message "Prepare release ${{steps.get-crate-version.outputs.crate-version}}"
+          git commit --message "Prepare release ${{ github.event.inputs.version }}"
           echo "::set-output name=commitish::$(git rev-parse HEAD)"
         shell: bash
       -
         name: Push new branch
-        run: git push origin release/${{steps.get-crate-version.outputs.crate-version}}
+        run: git push origin release/${{ github.event.inputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       -
@@ -57,15 +51,15 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           draft: true
-          name: Release ${{ inputs.version }}
-          tag_name: ${{ inputs.version }}
-          target_commitish: ${{steps.make-commit.outputs.commit}}
+          name: Release v${{ github.event.inputs.version }}
+          tag_name: v${{ github.event.inputs.version }}
+          target_commitish: ${{ steps.commit.outputs.commit }}
 
   build_assets_and_add_to_release:
     needs: create_draft_release
     uses: ./.github/workflows/build_assets_and_add_to_release.yml
     with:
       app_name: "timvw-hello-rs"
-      version: ${{ needs.create_draft_release.outputs.crate_version }}
+      version: ${{ github.event.inputs.version }}
       commitish: ${{ needs.create_draft_release.outputs.commitish }}
 
