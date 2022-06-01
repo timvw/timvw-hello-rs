@@ -40,7 +40,6 @@ jobs:
   publish_crate:
     name: Publish crate ${{ inputs.tag_name }}
     runs-on: ubuntu-latest
-    needs: initial_release
     steps:
       -
         name: Checkout code
