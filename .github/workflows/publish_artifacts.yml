@@ -9,6 +9,11 @@ on:
       tag_name:
         type: string
         required: true
+    secrets:
+      CARGO_REGISTRY_TOKEN:
+        required: true
+      COMMITTER_TOKEN:
+        required: true
 
 jobs:
 
