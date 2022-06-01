@@ -78,5 +78,4 @@ jobs:
           version: ${{needs.initial-release.outputs.crate-version}}
           commitish: ${{needs.initial-release.outputs.commit}}
           app_name: "timvw-hello-rs"
-        secrets: inherit
 
