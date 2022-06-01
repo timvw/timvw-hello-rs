@@ -62,4 +62,5 @@ jobs:
       app_name: "timvw-hello-rs"
       version: ${{ github.event.inputs.version }}
       commitish: ${{ needs.create_draft_release.outputs.commitish }}
+      tag_name: v${{ github.event.inputs.version }}
 

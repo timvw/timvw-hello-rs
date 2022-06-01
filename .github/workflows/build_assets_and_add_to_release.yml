@@ -12,6 +12,9 @@ on:
       commitish:
         type: string
         required: true
+      tag_name:
+        type: string
+        required: true
 
 
 jobs:
@@ -86,5 +89,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: ${{ inputs.app_name }}-${{ inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
-          tag_name: ${{ inputs.version }}
+          tag_name: ${{ inputs.tag_name }}
           draft: true
