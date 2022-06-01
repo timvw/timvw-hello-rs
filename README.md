@@ -2,29 +2,35 @@
 
 Repository to experiment with github actions and rust
 
+1. Create a draft release:
+
+```bash
+gh workflow run draft_release.yml -f version=0.1.86
+```
+
+This will result in:
+* the creation of a release/0.1.86
+* the creation of a draft github release, v0.1.86
+* addition of assets (compiled application binaries)  to the draft release
+
+2. Publish the draft release:
+
+```bash
+gh release edit v0.1.86 --draft=false 
+```
+
+This will result in:
+* the publication of the release, v0.1.86
+* the publication on crates.io
+* the publication of a docker container
+* the publication of an updated hombrew formula
+
+## Development
+
 Test the workflow:
 
 Local development is often faster by using [https://github.com/nektos/act](https://github.com/nektos/act)
 
 ```bash
 act workflow_dispatch -e sample.event 
-```
-
-Create a release:
-
-```bash
-gh workflow run draft_release.yml -f version=0.1.13
-```
-
-Build container manually:
-
-```bash
-docker build . --build-arg CRATE_VERSION=0.1.13 -t timvw/timvw-hello-rs:latest
-```
-
-Tap this repository:
-
-```bash
-brew tap timvw/tap
-brew install timvw-hellors-bin
 ```
