@@ -6,8 +6,19 @@ on:
       version:
         required: true
         type: string
+    outputs:
+      crate-version:
+        description: "Version of the release (without leading v)"
+        value: ${{ jobs.initial_release.outputs.crate-version }}
+      commitish:
+        description: "SHA of commit on which this release is based"
+        value: ${{ jobs.initial_release.outputs.commitish }}
 
 jobs:
+
+  outputs:
+    crate-version: ${{ steps.initial_release.outputs.crate-version }}
+    commitish: ${{ steps.initial_release.outputs.commit }}
 
   initial_release:
     name: Create base release ${{ github.event.inputs.version }}

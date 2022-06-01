@@ -9,17 +9,22 @@ on:
 
 jobs:
 
-  initial_release:
-    uses: ./.github/workflows/draft_release.yml
+  runs-on: ubuntu-latest
+  steps:
+    -
+      name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    -
+      uses: ./.github/workflows/draft_release.yml
       with:
         version: ${{ github.event.inputs.version }}
-
-  build_assets_and_add_to_release:
-    needs: initial_release
-    runs-on: ubuntu-latest
-    uses: ./.github/workflows/build_assets_and_add_to_release.yml
-      with:
-        version: ${{ needs.initial-release.outputs.crate-version }}
-        commitish: ${{ needs.initial-release.outputs.commit }}
-        app_name: "timvw-hello-rs"
+    -
+      needs: initial_release
+      uses: ./.github/workflows/build_assets_and_add_to_release.yml
+        with:
+          version: ${{ needs.initial-release.outputs.crate-version }}
+          commitish: ${{ needs.initial-release.outputs.commit }}
+          app_name: "timvw-hello-rs"
 
