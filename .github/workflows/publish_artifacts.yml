@@ -72,6 +72,11 @@ jobs:
    runs-on: ubuntu-latest
    steps:
      -
+       name: Get version
+       id: get-version
+       run: echo ::set-output name=version::``$(echo ${{ inputs.tag_name }} | cut -dv -f2)``
+       shell: bash
+     -
        name: Update formula
        uses: mislav/bump-homebrew-formula-action@v2
        with:
@@ -79,7 +84,7 @@ jobs:
          base-branch: master
          formula-name: timvw-hellors-bin
          tag-name: ${{ inputs.tag_name }}
-         download-url: ${{ github.server_url }}/${{ github.repository }}/releases/download/${{ inputs.tag_name }}/${{ inputs.app_name }}-${{ inputs.tag_name }}-x86_64-apple-darwin-generic.tar.gz
+         download-url: ${{ github.server_url }}/${{ github.repository }}/releases/download/${{ inputs.tag_name }}/${{ inputs.app_name }}-${{ steps.get-version.outputs.version }}-x86_64-apple-darwin-generic.tar.gz
        env:
          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
 
