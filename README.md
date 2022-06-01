@@ -16,7 +16,7 @@ This will result in:
 2. Publish the draft release:
 
 ```bash
-gh release edit v0.1.86 --draft=false 
+gh release edit --draft=false v0.1.86
 ```
 
 This will result in:
