@@ -139,10 +139,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
-          asset_name: timvw-hello-rs-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}
           tag_name: ${{ github.event.inputs.version }}
-          file_glob: true
-          overwrite: true
           draft: true
 
 # not needed - renovate bot on timvw/homebrew-tap repo will do this for me.
