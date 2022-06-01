@@ -62,7 +62,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          body_path: ${{ github.workspace }}-CHANGELOG.md
+          body_path: CHANGELOG.md
           draft: true
           name: Release ${{ github.event.inputs.version }}
           tag_name: ${{ github.event.inputs.version }}
