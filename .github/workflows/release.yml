@@ -24,11 +24,11 @@ jobs:
     with:
       version: ${{ github.event.inputs.version }}
 
-  assets:
+  build_assets_and_add_to_release:
     needs: initial_release
     uses: ./.github/workflows/build_assets_and_add_to_release.yml
     with:
       version: ${{ needs.initial-release.outputs.crate-version }}
       commitish: ${{ needs.initial-release.outputs.commit }}
-      app_name: "timvw-hello-rs"
+      app-name: "timvw-hello-rs"
 

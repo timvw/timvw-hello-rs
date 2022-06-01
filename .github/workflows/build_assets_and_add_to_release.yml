@@ -9,7 +9,7 @@ on:
       commitish:
         required: true
         type: string
-      app_name:
+      app-name:
         required: true
         type: string
 
