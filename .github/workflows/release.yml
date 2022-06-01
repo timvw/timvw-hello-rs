@@ -9,6 +9,7 @@ on:
 
 jobs:
 
+  name: Draft release
   runs-on: ubuntu-latest
   steps:
     -
