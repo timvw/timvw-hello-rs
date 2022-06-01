@@ -60,15 +60,13 @@ jobs:
       -
         name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.inputs.version }}
-          release_name: Release ${{ github.event.inputs.version }}
+          body_path: ${{ github.workspace }}-CHANGELOG.md
           draft: true
-          prerelease: true
-          commitish: ${{steps.make-commit.outputs.commit}}
+          name: Release ${{ github.event.inputs.version }}
+          tag_name: ${{ github.event.inputs.version }}
+          target_commitish: ${{steps.make-commit.outputs.commit}}
       - 
         name: Create pull request
         uses: thomaseizinger/create-pull-request@1.0.0
