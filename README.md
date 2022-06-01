@@ -24,6 +24,7 @@ This will result in:
 * the publication on crates.io
 * the publication of a docker container
 * the publication of an updated hombrew formula
+* the deletion of the release/0.1.86 branch
 
 ## Development
 
