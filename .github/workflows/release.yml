@@ -36,7 +36,7 @@ jobs:
         run: git checkout -b release/${{steps.get-crate-version.outputs.crate-version}}
       - 
         name: Update changelog
-        uses: thomaseizinger/keep-a-changelog-new-release@1.1.0
+        uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
         with:
           version: ${{steps.get-crate-version.outputs.crate-version}}
       - 
