@@ -9,14 +9,14 @@ on:
       commitish:
         required: true
         type: string
-      app-name:
+      app_name:
         required: true
         type: string
 
 jobs:
 
   build_assets_and_add_to_release:
-    name: Release assets ${{ github.event.inputs.app-name }}-${{ github.event.inputs.version }} (${{ matrix.config.toolchain }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }})
+    name: Release assets ${{ github.event.inputs.app_name }}-${{ github.event.inputs.version }} (${{ matrix.config.toolchain }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }})
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
@@ -74,16 +74,16 @@ jobs:
       -
         name: Pack binaries if unix
         if: matrix.config.os != 'windows-latest'
-        run: tar -C ./target/${{ matrix.config.target }}/release -czvf ${{ github.event.inputs.app-name }}-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.tar.gz ${{ github.event.inputs.app-name }}
+        run: tar -C ./target/${{ matrix.config.target }}/release -czvf ${{ github.event.inputs.app_name }}-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.tar.gz ${{ github.event.inputs.app_name }}
       -
         name: Pack binaries if windows
         if: matrix.config.os == 'windows-latest'
-        run: compress-archive ./target/${{ matrix.config.target }}/release/${{ github.event.inputs.app-name }}.exe ${{ github.event.inputs.app-name }}-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.zip
+        run: compress-archive ./target/${{ matrix.config.target }}/release/${{ github.event.inputs.app_name }}.exe ${{ github.event.inputs.app_name }}-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.zip
       -
         name: Upload binaries to release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: ${{ github.event.inputs.app-name }}-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
+          files: ${{ github.event.inputs.app_name }}-${{ github.event.inputs.version }}-${{ matrix.config.target }}-${{ matrix.config.target_cpu }}.*
           tag_name: ${{ github.event.inputs.version }}
           draft: true

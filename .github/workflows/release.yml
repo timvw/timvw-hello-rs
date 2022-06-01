@@ -28,7 +28,7 @@ jobs:
     needs: initial_release
     uses: ./.github/workflows/build_assets_and_add_to_release.yml
     with:
+      app_name: "timvw-hello-rs"
       version: ${{ needs.initial-release.outputs.crate-version }}
       commitish: ${{ needs.initial-release.outputs.commit }}
-      app-name: timvw-hello-rs
 
