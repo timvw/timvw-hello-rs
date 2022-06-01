@@ -55,7 +55,7 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
- publish_homebrew_formula_update:
+  publish_homebrew_formula_update:
    name: Publish Homebrew formula update
    runs-on: ubuntu-latest
    steps:
