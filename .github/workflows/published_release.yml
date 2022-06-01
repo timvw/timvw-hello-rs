@@ -6,8 +6,7 @@ on:
 
 jobs:
 
-  publish_container:
-    name: Publish container ${{ github.event.release.tag_name }}
+  checkout_code:
     runs-on: ubuntu-latest
     steps:
       -
@@ -15,61 +14,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: true
-      -
-        name: Login to ghcr.io
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Build and push container
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/timvw-hello-rs:${{ github.event.release.tag_name }}
 
-  publish_crate:
-    name: Publish crate ${{ github.event.release.tag_name }}
-    runs-on: ubuntu-latest
-    needs: initial_release
-    steps:
-      -
-        name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-      -
-        name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: x86_64-unknown-linux-gnu
-          override: true
-          default: true
-      -
-        name: Publish crate
-        run: cargo publish
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+  publish_artifacts:
+    needs: checkout_code
+    uses: ./.github/workflows/publish_artifacts.yml
+    with:
+      app_name: "timvw-hello-rs"
+      tag_name: ${{ github.event.release.tag_name }}
 
-  publish_homebrew_formula_update:
-   name: Publish Homebrew formula update
-   runs-on: ubuntu-latest
-   steps:
-     -
-       name: Update formulate
-       uses: mislav/bump-homebrew-formula-action@v2
-       with:
-         homebrew-tap: timvw/homebrew-tap
-         base-branch: master
-         formula-name: timvw-hellors-bin
-         tag-name: ${{ github.event.release.tag_name }}
-         download-url: https://github.com/timvw/timvw-hello-rs/releases/download/${{ github.event.release.tag_name }}/timvw-hello-rs-${{ github.event.release.tag_name }}-x86_64-apple-darwin-generic.tar.gz
-       env:
-         COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+
 
 
             
